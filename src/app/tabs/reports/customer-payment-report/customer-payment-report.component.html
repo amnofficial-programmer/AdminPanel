@@ -1,0 +1,389 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="card-title ">CUSTOMER PAYMENT REPORT</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form name="reportForm" (ngSubmit)="reportForm.form.valid && ReportSubmit()"
+                            #reportForm="ngForm" novalidate (keydown.enter)="$event.preventDefault()">
+                            <div class="row">
+                                <!-- <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="customerId" style="width: 100%">Select Customer: </label>
+                                        <select class="form-control" id="customerId" name="customerId"
+                                            [(ngModel)]="report.customerId" #customerId="ngModel"
+                                            (change)="getCustomerId($event)">
+                                            <option value="0">Select Customer</option>
+                                            <option *ngFor="let customer of customerList" [value]="customer.customerId">
+                                                {{customer.nameOfApplicant}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="fromDate">From Date<sup
+                                                style="font-size: 80%;color:red">*</sup></label>
+                                        <input type="date" class="form-control" id="fromDate" name="fromDate"
+                                            [(ngModel)]="report.fromDate" #fromDate="ngModel"
+                                            [ngClass]="{ 'is-invalid': reportForm.submitted && fromDate.invalid }"
+                                            required>
+                                        <div *ngIf="reportForm.submitted && fromDate.invalid" class="invalid-feedback">
+                                            <div *ngIf="fromDate.errors.required">From date is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="toDate">To Date<sup style="font-size: 80%;color:red">*</sup></label>
+                                        <input type="date" class="form-control" id="toDate" name="toDate"
+                                            [(ngModel)]="report.toDate" #toDate="ngModel"
+                                            [ngClass]="{ 'is-invalid': reportForm.submitted && toDate.invalid }"
+                                            required>
+                                        <div *ngIf="reportForm.submitted && toDate.invalid" class="invalid-feedback">
+                                            <div *ngIf="toDate.errors.required">To date is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="matbtnGroup">
+                                        <button mat-raised-button class="mt-4 ml-3" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="table-responsive" *ngIf="customerPaymentData">
+                        <br>
+                          <div class="pull-right matbtnGroup">
+                            <img style="cursor: pointer;margin-right: 10px;" src='../../../assets/img/icons/xls.png' title="Export Excel" (click)="ExportExcel()" width="24"/>
+                            <img style="cursor: pointer;margin-right: 10px;"src='../../../assets/img/icons/pdf.png' title="Export PDF"  (click)="ExportPdf()" width="24"/>
+                          </div>
+                          <br>
+                          <br>
+                          <table id="customerPaymentTable" class="display"  style=" border-collapse:collapse; table-layout:fixed; width:100%;">
+                              <thead>
+                                  <tr>
+                                      <th width="12%">Sr No</th>
+                                      <th width="22%">Customer Name</th>
+                                      <th width="22%">Agent Name</th>
+                                      <th width="22%">Amount(₹)</th>
+                                      <th width="22%">Date</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let data of customerPaymentData;let i=index">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        <span style="color:rgb(0, 71, 204);font-weight: bold;">{{data.customerId.nameOfApplicant}}</span>  
+                                    </td>
+                                    <td>
+                                        {{data.agent.name}}  
+                                    </td>
+                                    <td>
+                                        {{data.collectionAmount}}   
+                                    </td>
+                                    <td>
+                                        {{data.collectionDate}} 
+                                    </td>
+                                </tr>
+                                <hr>
+                                <tr hidden>
+                                    <td>
+                                        <span style="color:rgb(0, 71, 204);font-weight: bold;">Total Collection Amount(₹)</span>
+                                  </td>
+                                  <td>
+    
+                                  </td>
+                                  <td>
+    
+                                  </td>
+                                  <td>
+                                    <span style="color:rgb(0, 71, 204);font-weight: bold;">{{totalcollectionAmount}}</span>
+                                  </td>
+                                  <td>
+    
+                                </td>
+                                  </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <span style="color:rgb(0, 71, 204);font-weight: bold;">Total Collection Amount(₹)</span>
+                                  </td>
+                                  <td>
+    
+                                  </td>
+                                  <td>
+    
+                                  </td>
+                                  <td>
+                                    <span style="color:rgb(0, 71, 204);font-weight: bold;">{{totalcollectionAmount}}</span>
+                                  </td>
+                                  <td>
+    
+                                </td>
+                                  </tr>
+                              </tfoot>
+                          </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal fade" id="customerPaymentReportPdfShowModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="max-width: 950px!important;"role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="largeModalLabel">View Report</h5>
+    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetPdfPath()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+    
+            <div class="modal-body">
+                <div class="card-body" *ngIf="openPdfPath" >
+    
+                    <div class="pull-right matbtnGroup">
+                        <button mat-raised-button type="button" (click)="DownloadPdf(openPdfPath)">Download</button>
+                        <button mat-raised-button type="button"  (click)="print()" >Print</button>
+                    </div>
+                    
+                   <div style="width: 900px;height: 450px;overflow: scroll;">
+                    <pdf-viewer [src]="openPdfPath" [render-text]="true" ></pdf-viewer>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="modal fade" id="customerPaymentReportPdfModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="largeModalLabel">View Report</h5>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="card-body" style="height: 500px;overflow: scroll;">
+                <button mat-raised-button color="warn" (click)="downloadPDF()" class="mr-2">Download</button>
+                <button mat-raised-button color="warn" (click)="print1()" class="mb-2">print</button>
+                
+                <div  id="content" >
+          
+                    <table  class="maintable" style=" border-collapse:collapse; table-layout:fixed; width:100%;" *ngIf="societyInfo">
+                     <tr>
+                       <td style="text-align: center;font-weight: bold">{{societyInfo.societyName}}</td>
+                     </tr> 
+                     <tr>
+                       <td style="text-align: center;font-weight: bold">Reg.No.{{societyInfo.regNo}}</td>
+                     </tr> 
+                     <tr>
+                       <td style="text-align: center">{{societyInfo.address}}</td>
+                     </tr> 
+                     <tr>
+                       <td style="text-align: center;font-weight: bold">Repport</td>
+                     </tr> 
+                   </table>
+                   <table  class="maintable" style=" border-collapse:collapse; table-layout:fixed; width:100%;" *ngIf="flatTemp && registeredOwnerInfo" >
+                    
+                       <tr>
+                         <td class="tableborderright"><span style="font-weight: bold">Building No:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{registeredOwnerInfo.flat.building.buildingName}}</span></td>
+                         <td class="tableborderright"><span style="font-weight: bold">From Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{flatTemp.fromDate}}</span></td>
+                       </tr>
+                       <tr>
+                         <td class="tableborderright"><span style="font-weight: bold">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{registeredOwnerInfo.name}}</span></td>
+                         <td class="tableborderright"><span style="font-weight: bold">To Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{flatTemp.toDate}}</span></td>
+                       </tr>
+                       <tr>
+                         <td class="tableborderright"><span style="font-weight: bold">Flat No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{registeredOwnerInfo.flat.flatName}}</span></td>
+                         <td class="tableborderright"></td>
+                       </tr>
+                     
+                     
+                   </table>
+                   <table  class="maintable" style=" border-collapse:collapse; table-layout:fixed; width:100%;" *ngIf="flatTemp && registeredOwnerInfo == null" >
+                    
+                    <tr>
+                      <td class="tableborderright"><span style="font-weight: bold">Building No:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">-</span></td>
+                      <td class="tableborderright"><span style="font-weight: bold">From Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{flatTemp.fromDate}}</span></td>
+                    </tr>
+                    <tr>
+                      <td class="tableborderright"><span style="font-weight: bold">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">-</span></td>
+                      <td class="tableborderright"><span style="font-weight: bold">To Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">{{flatTemp.toDate}}</span></td>
+                    </tr>
+                    <tr>
+                      <td class="tableborderright"><span style="font-weight: bold">Flat No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">-</span></td>
+                      <td class="tableborderright"></td>
+                    </tr>
+                </table>
+                   <table  class="maintable" style=" border-collapse:collapse; table-layout:fixed; width:100%;" *ngIf="flatstatementData">
+                     <thead>
+                        <th class="maintable" style="text-align: center">
+                        Sr No
+                        </th>
+                        <th class="maintable" style="text-align: center">
+                        Wing/Block
+                       </th>
+                       <th class="maintable" style="text-align: center">
+                        Flat No
+                       </th>
+                       <th class="maintable" style="text-align: center">
+                        Paid Amount
+                       </th>
+                       <th class="maintable" style="text-align: center">
+                        Paid Date
+                       </th>
+                       <th class="maintable" style="text-align: center" >
+                        Collected By
+                       </th>
+                     </thead>
+                     <tbody>
+                        <ng-container *ngIf="flatstatementData.societyReciept.length == 0; else elseempty" >
+                            <td class="maintable" style="text-align: center"></td>
+                            <td class="maintable" style="text-align: center"></td>
+                            <td class="maintable" style="text-align: center"></td>
+                            <td class="maintable" style="text-align: center"></td>
+                            <td class="maintable" style="text-align: center"></td>
+                            <td class="maintable" style="text-align: center"></td>
+                            <td class="maintable" style="text-align: center"></td>
+                    </ng-container>
+                    <ng-template #elseempty>
+                <ng-container *ngIf="flatstatementData.societyReciept[0].building != null; else flatTable"  >
+                        <tr *ngFor="let data of flatstatementData.societyReciept;let i=index">
+                            <td class="maintable" style="text-align: center">{{i+1}}</td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.building != null;else elsebuildingName">
+                                {{data.building.buildingName}}
+                            </ng-container>
+                            <ng-template #elsebuildingName>
+                                -
+                            </ng-template>
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                                -
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.building != null;else elsepaidAmount">
+                                {{data.paidAmount}}
+                            </ng-container>
+                            <ng-template #elsepaidAmount>
+                                 {{data.paidAmount}}
+                            </ng-template>
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.paidDate != null;else elsepaidDate">
+                                {{data.paidDate}}
+                            </ng-container>
+                            <ng-template #elsepaidDate>
+                                -
+                            </ng-template>
+                            </td>
+
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.collectedBy != null;else elsecollectedBy">
+                                {{data.collectedBy}}
+                            </ng-container>
+                            <ng-template #elsecollectedBy>
+                                -
+                            </ng-template>
+                            </td>
+
+                        </tr>
+                    </ng-container>
+                    <ng-template #flatTable>
+                        <tr *ngFor="let data of flatstatementData.societyReciept;let i=index">
+                            <td class="maintable" style="text-align: center">{{i+1}}</td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.flat != null;else elsebuildingName">
+                                {{data.flat.building.buildingName}}
+                            </ng-container>
+                            <ng-template #elsebuildingName>
+                                -
+                            </ng-template>
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.flat != null;else elseflatName">
+                                {{data.flat.flatName}}
+                            </ng-container>
+                            <ng-template #elseflatName>
+                                - 
+                            </ng-template>
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.flat != null;else elsepaidAmount">
+                                {{data.paidAmount}}
+                            </ng-container>
+                            <ng-template #elsepaidAmount>
+                                 {{data.paidAmount}}
+                            </ng-template>
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.paidDate != null;else elsepaidDate">
+                                {{data.paidDate}}
+                            </ng-container>
+                            <ng-template #elsepaidDate>
+                                -
+                            </ng-template>
+                            </td>
+                            <td class="maintable" style="text-align: center">
+                            <ng-container *ngIf="data.collectedBy != null;else elsecollectedBy">
+                                {{data.collectedBy}}
+                            </ng-container>
+                            <ng-template #elsecollectedBy>
+                                -
+                            </ng-template>
+                        </td>
+                    </tr>
+                </ng-template>
+            </ng-template>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="text-align: center">
+                    <b>Total Amount</b>
+                </td>
+                <td>
+            
+                </td>
+                <td>
+            
+                </td>
+                <td style="text-align: center">
+                <b>{{flatstatementData.totalAmount}}</b>
+                </td>
+                <td>
+            
+                </td>
+                <td>
+            
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+           </div>
+          </div>
+        </div>
+    </div>
+</div>
+</div> -->

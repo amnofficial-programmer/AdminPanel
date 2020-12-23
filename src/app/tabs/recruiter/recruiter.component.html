@@ -1,0 +1,663 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="card-title ">Recruiter</h4>
+                <!-- <p class="card-category">Here is a subtitle for this table</p> -->
+              </div>
+              <div class="col-md-6">
+                <!-- <div class="pull-right matbtnGroup">
+
+                  <button mat-raised-button type="submit" data-target="#largeModalAddCustomer" data-toggle="modal"
+                    data-backdrop="static" data-keyboard="false">Add</button>
+                   
+                     <button mat-raised-button type="submit" data-target="#largeModalAgentAssign" data-toggle="modal"
+                    data-backdrop="static" data-keyboard="false">Agent Assign</button>
+                 
+                  <img style="cursor: pointer;margin-right: 10px;" src='../../../assets/img/icons/xls.png' title="Export Excel" (click)="ExportExcel()" width="24"/>
+                  <img style="cursor: pointer;margin-right: 10px;"src='../../../assets/img/icons/pdf.png' title="Export PDF"  (click)="ExportPdf()" width="24"/>
+
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="customerdataTable" class="display"
+                style=" border-collapse:collapse; table-layout:fixed; width:100%;">
+                <thead>
+                  <tr>
+                    <th width="5%">Id</th>
+                   
+                    <th width="12%">Name</th>
+                   
+                    <th width="10%">Company Name</th>
+                    <th width="15%">Job Role </th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Date</th>
+
+                    <th width="10%">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of recruiterGrid; let i=index">
+                    <td>
+                      {{data.id}}
+                    </td>
+                   
+
+                    <td style="word-wrap:break-word;">
+                      <span style="color:rgb(0, 71, 204);font-weight: bold;"> {{data.fullName}}</span>
+                    </td>
+
+                    <!-- <ng-container *ngIf="data.agent == null;else elseagentDto"> -->
+                    <!-- <td>
+                      {{data.profileUrl}}
+                    </td> -->
+                    <!-- </ng-container> -->
+                    <!-- <ng-template #elseagentDto> -->
+                    <td>
+                      {{data.companyName}}
+                    </td>
+                    <!-- </ng-template> -->
+
+
+                    <td>
+                      {{data.jobRole}}
+                    </td>
+
+                    <td>
+                      <ng-container *ngIf="data.verificationStatus == 1;else elseVerificationStatus">
+                        Approved
+                      </ng-container>
+                      <ng-template #elseVerificationStatus>
+                        Rejected
+                      </ng-template>
+                      <!-- {{data.verificationStatus}} -->
+                    </td>
+
+                    <td>
+                      {{data.addDateTime}}
+                    </td>
+
+                    <td>
+                      <span style="color:rgb(0, 71, 204);font-weight: bold;">
+                        <!-- <ng-container *ngIf="data.agent == null;else elseagentDto3">
+
+                        </ng-container> -->
+                        <!-- <ng-template #elseagentDto3>
+                          <i class="material-icons" title="Reassign Agent To Customer" data-target="#largeModalAgentAssign" data-toggle="modal"
+                          data-backdrop="static" data-keyboard="false" (click)="ReassignAgent(data)">group_add</i>&nbsp;&nbsp;
+                        </ng-template> -->
+                        <!-- <i class="material-icons" title="Update Customer" data-target="#largeModalUpdateCustomer" data-toggle="modal"
+                      data-backdrop="static" data-keyboard="false" (click)="UpdateDataBind(data)">create</i>&nbsp;&nbsp;
+                    <i class="material-icons" title="Delete Customer" data-target="#largeModalDeleteCustomer" data-toggle="modal"
+                      data-backdrop="static" data-keyboard="false" (click)="DeleteDataBind(data)">delete_forever</i></span>
+                     -->
+
+                        <i class="material-icons" title="View Recruiter" data-target="#CustomerViewModal"
+                          data-toggle="modal" data-backdrop="static" data-keyboard="false"
+                          (click)="ViewDataBind(data)">visibility</i>
+                      </span>
+
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+<div class="modal fade" id="largeModalAddCustomer" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">ADD CUSTOMER</h5>
+        <button type="button" class="close" (click)="addCloseClick()" #closeaddForm data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+      <form name="form" (ngSubmit)="addForm.form.valid && AddCustomerSubmit()" #addForm="ngForm" novalidate
+        (keydown.enter)="$event.preventDefault()">
+        <div class="modal-body">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nameOfApplicant">Name Of Applicant<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="nameOfApplicant" placeholder="Enter nameOfApplicant"
+                    name="nameOfApplicant" [(ngModel)]="addCustomer.nameOfApplicant" #nameOfApplicant="ngModel"
+                    [ngClass]="{ 'is-invalid': addForm.submitted && nameOfApplicant.invalid }" required>
+                  <div *ngIf="addForm.submitted && nameOfApplicant.invalid" class="invalid-feedback">
+                    <div *ngIf="nameOfApplicant.errors.required">Name Of Applicant is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="otherName">Other Name</label>
+                  <input type="text" class="form-control" id="otherName" placeholder="Enter Other Name" name="otherName"
+                    [(ngModel)]="addCustomer.otherName" #otherName="ngModel">
+
+                  <div *ngIf="addForm.submitted && otherName.invalid" class="invalid-feedback">
+                    <div *ngIf="otherName.errors.required">Other Name is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="firmName">Firm Name</label>
+                  <input type="text" class="form-control" id="firmName" placeholder="Enter Firm Name" name="firmName"
+                    [(ngModel)]="addCustomer.firmName" #firmName="ngModel">
+                
+                  <div *ngIf="addForm.submitted && firmName.invalid" class="invalid-feedback">
+                    <div *ngIf="firmName.errors.required">Firm Name is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="mobileNo">Mobile No<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="mobileNo" placeholder="Enter mobileNo" name="mobileNo"
+                    [(ngModel)]="addCustomer.mobileNo" #mobileNo="ngModel" maxlength="10"
+                    (keypress)="_keyPress1($event)" [ngClass]="{ 'is-invalid': addForm.submitted && mobileNo.invalid }"
+                    required>
+                  <div *ngIf="addForm.submitted && mobileNo.invalid" class="invalid-feedback">
+                    <div *ngIf="mobileNo.errors.required">Mobile No is required</div>
+                  </div>
+
+                 
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="currentAddress">Current Address</label>
+                  <textarea rows="4" type="text" class="form-control" id="currentAddress"
+                    placeholder="Enter Current Address" name="currentAddress" [(ngModel)]="addCustomer.currentAddress"
+                    #currentAddress="ngModel"></textarea>
+                  
+                  <div *ngIf="addForm.submitted && currentAddress.invalid" class="invalid-feedback">
+                    <div *ngIf="currentAddress.errors.required">Current Address is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="residentialAddress">Residential Address</label>
+                  <textarea rows="4" type="text" class="form-control" id="residentialAddress"
+                    placeholder="Enter Residential Address" name="residentialAddress"
+                    [(ngModel)]="addCustomer.residentialAddress" #residentialAddress="ngModel"></textarea>
+              
+                  <div *ngIf="addForm.submitted && residentialAddress.invalid" class="invalid-feedback">
+                    <div *ngIf="residentialAddress.errors.required">Residential Address is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nameOfBusiness">Name Of Business</label>
+                  <input type="text" class="form-control" id="nameOfBusiness" placeholder="Enter Other Name"
+                    name="nameOfBusiness" [(ngModel)]="addCustomer.nameOfBusiness" #nameOfBusiness="ngModel">
+                
+                  <div *ngIf="addForm.submitted && nameOfBusiness.invalid" class="invalid-feedback">
+                    <div *ngIf="nameOfBusiness.errors.required">Other Name is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="addressOfBusiness">Address Of Business</label>
+                  <textarea rows="4" type="text" class="form-control" id="addressOfBusiness"
+                    placeholder="Enter Address Of Business" name="addressOfBusiness"
+                    [(ngModel)]="addCustomer.addressOfBusiness" #addressOfBusiness="ngModel"></textarea>
+        
+                  <div *ngIf="addForm.submitted && addressOfBusiness.invalid" class="invalid-feedback">
+                    <div *ngIf="addressOfBusiness.errors.required">Address Of Business is required</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="loanAmount">Loan Amount<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="number" class="form-control" id="loanAmount" placeholder="Enter Loan Amount"
+                    name="loanAmount" [(ngModel)]="addCustomer.loanAmount" #loanAmount="ngModel"
+                    [ngClass]="{ 'is-invalid': addForm.submitted && loanAmount.invalid }" required>
+                
+                  <div *ngIf="addForm.submitted && loanAmount.invalid" class="invalid-feedback">
+                    <div *ngIf="loanAmount.errors.required">Loan Amount is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group" >
+                  <label for="repayment">EMI<sup style="font-size: 80%;color:red">*</sup></label>
+                  <br>
+                  <input type="radio" value="daily" name="repayment" ng-control="repayment"
+                    [(ngModel)]="addCustomer.repayment" #repayment="ngModel" 
+                    [ngClass]="{ 'is-invalid': addForm.submitted && repayment.invalid }" required>&nbsp; Daily
+                  &nbsp;&nbsp;
+                  <input type="radio" value="weekly" name="repayment" ng-control="repayment"
+                    [(ngModel)]="addCustomer.repayment" #repayment="ngModel" 
+                    [ngClass]="{ 'is-invalid': addForm.submitted && repayment.invalid }" required>&nbsp; Weekly
+                  <div *ngIf="addForm.submitted && repayment.invalid" class="invalid-feedback">
+                    <div *ngIf="repayment.errors.required">Repayment is required</div>
+                  </div>
+
+                  
+
+                  <input type="number" class="form-control" id="repaymentAmount" placeholder="Enter EMI Amount"
+                  name="repaymentAmount" [(ngModel)]="addCustomer.repaymentAmount" #repaymentAmount="ngModel"
+                  [ngClass]="{ 'is-invalid': addForm.submitted && repaymentAmount.invalid }" required>
+         
+                <div *ngIf="addForm.submitted && repaymentAmount.invalid" class="invalid-feedback">
+                  <div *ngIf="repaymentAmount.errors.required">EMI Amount is required</div>
+                </div>
+                  
+
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="openingDueAmount">Opening Due Amount<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="number" class="form-control" id="openingDueAmount" placeholder="Enter Opening Due Amount"
+                    name="openingDueAmount" [(ngModel)]="addCustomer.openingDueAmount" #openingDueAmount="ngModel"
+                    (keyup)="keyup($event)"
+                    [ngClass]="{ 'is-invalid': addForm.submitted && openingDueAmount.invalid }"  required>
+              
+                  <div *ngIf="addForm.submitted && openingDueAmount.invalid" class="invalid-feedback">
+                    <div *ngIf="openingDueAmount.errors.required">Opening Due Amount is required</div>
+                  </div>
+                  <span id="openingDueAmounterr" style="color:red;font-size: 12px"></span>
+                </div>
+              </div>
+              
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer matbtnGroup">
+
+          <button mat-raised-button type="submit">Save</button>
+          <button mat-raised-button type="submit" (click)="addCancelClick();" data-dismiss="modal">Cancel</button>
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="modal fade" id="largeModalUpdateCustomer" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">UPDATE CUSTOMER</h5>
+        <button type="button" (click)="updateCloseClick()" #closeupdateForm class="close" data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" (ngSubmit)="updateForm.form.valid && UpdateCustomerSubmit()" #updateForm="ngForm" novalidate
+        (keydown.enter)="$event.preventDefault()">
+        <div class="modal-body" *ngIf="customerUpdate">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nameOfApplicant">Name Of Applicant<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="nameOfApplicant" placeholder="Enter nameOfApplicant"
+                    name="nameOfApplicant" [(ngModel)]="customerUpdate.nameOfApplicant" #nameOfApplicant="ngModel"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && nameOfApplicant.invalid }" required>
+                  <div *ngIf="updateForm.submitted && nameOfApplicant.invalid" class="invalid-feedback">
+                    <div *ngIf="nameOfApplicant.errors.required">Name Of Applicant is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="otherName">Other Name</label>
+                  <input type="text" class="form-control" id="otherName" placeholder="Enter Other Name" name="otherName"
+                    [(ngModel)]="customerUpdate.otherName" #otherName="ngModel">
+                
+                  <div *ngIf="updateForm.submitted && otherName.invalid" class="invalid-feedback">
+                    <div *ngIf="otherName.errors.required">Other Name is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="firmName">Firm Name</label>
+                  <input type="text" class="form-control" id="firmName" placeholder="Enter Firm Name" name="firmName"
+                    [(ngModel)]="customerUpdate.firmName" #firmName="ngModel">
+                 
+                  <div *ngIf="updateForm.submitted && firmName.invalid" class="invalid-feedback">
+                    <div *ngIf="firmName.errors.required">Firm Name is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="mobileNo">Mobile No<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="mobileNo" placeholder="Enter mobileNo" name="mobileNo"
+                    [(ngModel)]="customerUpdate.mobileNo" #mobileNo="ngModel" maxlength="10"
+                    (keypress)="_keyPress1($event)"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && mobileNo.invalid }" required>
+                  <div *ngIf="updateForm.submitted && mobileNo.invalid" class="invalid-feedback">
+                    <div *ngIf="mobileNo.errors.required">Mobile No is required</div>
+                  </div>
+
+                  
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="currentAddress">Current Address</label>
+                  <textarea rows="4" type="text" class="form-control" id="currentAddress"
+                    placeholder="Enter Current Address" name="currentAddress"
+                    [(ngModel)]="customerUpdate.currentAddress" #currentAddress="ngModel"></textarea>
+                
+                  <div *ngIf="updateForm.submitted && currentAddress.invalid" class="invalid-feedback">
+                    <div *ngIf="currentAddress.errors.required">Current Address is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="residentialAddress">Residential Address</label>
+                  <textarea rows="4" type="text" class="form-control" id="residentialAddress"
+                    placeholder="Enter Residential Address" name="residentialAddress"
+                    [(ngModel)]="customerUpdate.residentialAddress" #residentialAddress="ngModel"></textarea>
+                 
+                  <div *ngIf="updateForm.submitted && residentialAddress.invalid" class="invalid-feedback">
+                    <div *ngIf="residentialAddress.errors.required">Residential Address is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nameOfBusiness">Name Of Business</label>
+                  <input type="text" class="form-control" id="nameOfBusiness" placeholder="Enter Other Name"
+                    name="nameOfBusiness" [(ngModel)]="customerUpdate.nameOfBusiness" #nameOfBusiness="ngModel">
+                  
+                  <div *ngIf="updateForm.submitted && nameOfBusiness.invalid" class="invalid-feedback">
+                    <div *ngIf="nameOfBusiness.errors.required">Other Name is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="addressOfBusiness">Address Of Business</label>
+                  <textarea rows="4" type="text" class="form-control" id="addressOfBusiness"
+                    placeholder="Enter Address Of Business" name="addressOfBusiness"
+                    [(ngModel)]="customerUpdate.addressOfBusiness" #addressOfBusiness="ngModel"></textarea>
+           
+                  <div *ngIf="updateForm.submitted && addressOfBusiness.invalid" class="invalid-feedback">
+                    <div *ngIf="addressOfBusiness.errors.required">Address Of Business is required</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="loanAmount">Loan Amount<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="number" class="form-control" id="loanAmount" placeholder="Enter Loan Amount"
+                    name="loanAmount" [(ngModel)]="customerUpdate.loanAmount" #loanAmount="ngModel"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && loanAmount.invalid }" required>
+                
+                  <div *ngIf="updateForm.submitted && loanAmount.invalid" class="invalid-feedback">
+                    <div *ngIf="loanAmount.errors.required">Loan Amount is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group" >
+                  <label for="repayment">EMI<sup style="font-size: 80%;color:red">*</sup></label>
+                  <br>
+                  <input type="radio" value="daily" name="repayment" ng-control="repayment"
+                    [(ngModel)]="customerUpdate.repayment" #repayment="ngModel" (change)="onchangeofradio($event)"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && repayment.invalid }" required>&nbsp; Daily
+                  &nbsp;&nbsp;
+                  <input type="radio" value="weekly" name="repayment" ng-control="repayment"
+                    [(ngModel)]="customerUpdate.repayment" #repayment="ngModel" (change)="onchangeofradio($event)"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && repayment.invalid }" required>&nbsp; Weekly
+                  <div *ngIf="updateForm.submitted && repayment.invalid" class="invalid-feedback">
+                    <div *ngIf="repayment.errors.required">Repayment is required</div>
+                  </div>
+
+
+                  <input type="number" class="form-control" id="repaymentAmount" placeholder="Enter EMI Amount"
+                  name="repaymentAmount" [(ngModel)]="customerUpdate.repaymentAmount" #repaymentAmount="ngModel"
+                  [ngClass]="{ 'is-invalid': updateForm.submitted && repaymentAmount.invalid }" required>
+             
+                <div *ngIf="updateForm.submitted && repaymentAmount.invalid" class="invalid-feedback">
+                  <div *ngIf="repaymentAmount.errors.required">EMI Amount is required</div>
+                </div>
+
+
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="openingDueAmount">Opening Due Amount<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="number" class="form-control" id="openingDueAmount" placeholder="Enter Opening Due Amount"
+                    name="openingDueAmount" [(ngModel)]="customerUpdate.openingDueAmount" #openingDueAmount="ngModel"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && openingDueAmount.invalid }"  (keyup)="keyupupdate($event)" required>
+                 
+                  <div *ngIf="updateForm.submitted && openingDueAmount.invalid" class="invalid-feedback">
+                    <div *ngIf="openingDueAmount.errors.required">Opening Due Amount is required</div>
+                  </div>
+                  <span id="openingDueAmounterr" style="color:red;font-size: 12px"></span>
+                </div>
+              </div>
+              
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer matbtnGroup">
+
+          <button mat-raised-button type="submit">Update</button>
+          <button mat-raised-button type="submit" (click)="updateCancelClick()" data-dismiss="modal">Cancel</button>
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="modal fade" id="largeModalDeleteCustomer" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">DELETE CUSTOMER</h5>
+        <button type="button" #closedeleteForm class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="customerDelete">
+        <div class="card-body">
+          <h5>ARE YOU SURE YOU WANT TO DELETE {{customerDelete.nameOfApplicant}} ?</h5>
+        </div>
+      </div>
+      <div class="modal-footer matbtnGroup">
+
+        <button mat-raised-button type="submit" (click)="DeleteCustomerSubmit()">Delete</button>
+        <button mat-raised-button type="submit" data-dismiss="modal">Cancel</button>
+
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<!-- <div class="modal fade" id="largeModalAgentAssign" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">ASSIGN AGENT TO CUSTOMER</h5>
+        <button type="button" #closeassignForm (click)="deleteAssignList()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="card-body">
+          <ng-container *ngIf="this.filteredAgentsFlag == false;else elselist">
+            <select class="form-control select"  [(ngModel)]="agentId" (change)="agentSelection($event)">
+              <option value=0 >Select Agent</option>
+              <option *ngFor="let agents of agentGrid; let i = index" [value]="agents.agentId" >{{agents.name}}</option>
+          </select>
+          </ng-container>
+          <ng-template #elselist>
+            <select class="form-control select"  [(ngModel)]="agentId" (change)="agentSelection($event)">
+              <option *ngFor="let agents of filteredAgents; let i = index" [value]="agents.agentId">{{agents.name}}</option>
+          </select>
+          </ng-template>
+          <span id="selecterror" style="color:red;font-size: 12px"></span>
+        </div>
+      </div>
+      <div class="modal-footer matbtnGroup">
+
+        <button mat-raised-button type="submit" (click)="assignSubmit(agentId)">Assign</button>
+        <button mat-raised-button type="submit" data-dismiss="modal" (click)="deleteAssignList()" >Cancel</button>
+
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="CustomerViewModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">VIEW RECRUITER</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="recruiterViewData">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered table-hover table-condensed"
+              style="width:100%">
+              <tbody>
+                <!-- uid:number;
+			fullName:string;
+			profileUrl:string;
+			companyName:string;
+			jobRole:string;
+			verificationCardUrl:string;
+			verificationCardId:string;
+			verificationStatus:string;
+			deleteStatus:string;
+			addDateTime:string;
+            updateDateTime:string; -->
+                <tr>
+                  <td><b>Name </b></td>
+                  <!-- <td><span style="color:rgb(0, 71, 204);font-weight: bold;">{{recruiterViewData.nameOfApplicant}}</span></td> -->
+                  <td>{{recruiterViewData.fullName}}</td>
+                </tr>
+                <tr>
+                  <td><b>Profile Url</b></td>
+
+
+                  <td>{{recruiterViewData.profileUrl}}</td>
+
+                </tr>
+                <tr>
+                  <td><b>Company Name</b></td>
+                  <td>{{recruiterViewData.companyName}}</td>
+                </tr>
+                <tr>
+                  <td><b>Job Role</b></td>
+                  <td>{{recruiterViewData.jobRole}}</td>
+                </tr>
+                <!-- <tr>
+                  <td><b>Status</b></td>
+                  <td>{{recruiterViewData.verificationStatus}}</td>
+                </tr> -->
+                <tr>
+                  <td><b>Date</b></td>
+                  <td>{{recruiterViewData.addDateTime}}</td>
+                </tr>
+                <tr>
+                  <td><b>Verification Status</b></td>
+                  <td>
+                    <!-- (change)="onchangeofradio($event)" -->
+                    <mat-radio-group name="verificationStatus" ng-control="verificationStatus"
+                      [(ngModel)]="recruiterViewData.verificationStatus" #verificationStatus="ngModel" required>
+                      <mat-radio-button value="1">
+                        Approved
+                      </mat-radio-button>&nbsp;
+                      <mat-radio-button value="0">
+                        Rejected
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="submit" (click)="submitUpdateVerificationStatus()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

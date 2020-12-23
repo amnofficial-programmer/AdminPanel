@@ -1,0 +1,175 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <h4 class="card-title ">CUSTOMER DUE REPORT</h4>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                      <form name="reportForm" (ngSubmit)="reportForm.form.valid && ReportSubmit()"
+                          #reportForm="ngForm" novalidate (keydown.enter)="$event.preventDefault()">
+                          <div class="row">
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label for="customerId" style="width: 100%">Select Customer: </label>
+                                      <select class="form-control" id="customerId" name="customerId"
+                                          [(ngModel)]="report.customerId" #customerId="ngModel">
+                                          <!-- (change)="getCustomerId($event)"> -->
+                                          <option value="0">Select Customer</option>
+                                          <option *ngFor="let customer of customerList" [value]="customer.customerId">
+                                              {{customer.nameOfApplicant}}
+                                          </option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <!-- <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label for="fromDate">From Date<sup
+                                              style="font-size: 80%;color:red">*</sup></label>
+                                      <input type="date" class="form-control" id="fromDate" name="fromDate"
+                                          [(ngModel)]="report.fromDate" #fromDate="ngModel"
+                                          [ngClass]="{ 'is-invalid': reportForm.submitted && fromDate.invalid }"
+                                          required>
+                                      <div *ngIf="reportForm.submitted && fromDate.invalid" class="invalid-feedback">
+                                          <div *ngIf="fromDate.errors.required">From date is required</div>
+                                      </div>
+                                  </div>
+                              </div> -->
+                              <!-- <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label for="toDate">To Date<sup style="font-size: 80%;color:red">*</sup></label>
+                                      <input type="date" class="form-control" id="toDate" name="toDate"
+                                          [(ngModel)]="report.toDate" #toDate="ngModel"
+                                          [ngClass]="{ 'is-invalid': reportForm.submitted && toDate.invalid }"
+                                          required>
+                                      <div *ngIf="reportForm.submitted && toDate.invalid" class="invalid-feedback">
+                                          <div *ngIf="toDate.errors.required">To date is required</div>
+                                      </div>
+                                  </div>
+                              </div> -->
+                              <div class="col-md-3">
+                                  <div class="matbtnGroup">
+                                      <button mat-raised-button class="mt-4 ml-3" type="submit">Search</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+
+                      <div class="table-responsive" *ngIf="customerDueData">
+                      <br>
+                        <div class="pull-right matbtnGroup">
+                          <img style="cursor: pointer;margin-right: 10px;" src='../../../assets/img/icons/xls.png' title="Export Excel" (click)="ExportExcel()" width="24"/>
+                          <img style="cursor: pointer;margin-right: 10px;"src='../../../assets/img/icons/pdf.png' title="Export PDF"  (click)="ExportPdf()" width="24"/>
+                        </div>
+                        <br>
+                        <br>
+                        <table id="customerDueTable" class="display"  style=" border-collapse:collapse; table-layout:fixed; width:100%;">
+                            <thead>
+                                <tr>
+                                    <th width="10%">Sr No</th>
+                                    <th width="15%">Customer Name</th>
+                                    <th width="15%">Agent Name</th>
+                                    <th width="15%"> Loan Amount(₹)</th>
+                                    <th width="15%"> Opening Due Amount(₹)</th>
+                                    <th width="15%"> EMI(₹)</th>
+                                    <th width="15%"> Due Amount(₹)</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of customerDueData;let i=index">
+                                  <td>
+                                      {{i+1}}
+                                  </td>
+                                  <td>
+                                      <span style="color:rgb(0, 71, 204);font-weight: bold;">{{data.customer.nameOfApplicant}}</span>  
+                                  </td>
+                                  <td>
+                                    <ng-container *ngIf="data.agent == null;else elseagentDto2">
+                                     -
+                                    </ng-container>
+                                    <ng-template #elseagentDto2>
+                                      {{data.customer.agent.name}}  
+                                    </ng-template>
+                                      
+                                  </td>
+                                  <td>
+                                      {{data.customer.loanAmount}}   
+                                  </td>
+                                  <td>
+                                      {{data.customer.openingDueAmount}} 
+                                  </td>
+                                  <td>
+                                    {{data.customer.repaymentAmount}} 
+                                </td>
+                                <td>
+                                  {{data.dueAmount}} 
+                              </td>
+
+                                  
+
+                                  
+                              </tr>
+                              <hr>
+                              <tr hidden>
+                                  <td>
+                                      <span style="color:rgb(0, 71, 204);font-weight: bold;">Total Due Amount(₹)</span>
+                                </td>
+                                <td>
+  
+                                </td>
+                                <td>
+  
+                                </td>
+                                <td>
+  
+                                </td>
+                                <td>
+  
+                                </td>
+                                <td>
+  
+                                </td>
+                                <td>
+                                  <span style="color:rgb(0, 71, 204);font-weight: bold;">{{totalDueAmount}}</span>
+                                </td>
+                                </tr>
+                          </tbody>
+                          <tfoot>
+                              <tr>
+                                <td>
+                                  <span style="color:rgb(0, 71, 204);font-weight: bold;">Total Due Amount(₹)</span>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                              <span style="color:rgb(0, 71, 204);font-weight: bold;">{{totalDueAmount}}</span>
+                            </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

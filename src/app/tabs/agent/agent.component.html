@@ -1,0 +1,377 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="card-title ">AGENT</h4>
+                <!-- <p class="card-category">Here is a subtitle for this table</p> -->
+              </div>
+              <div class="col-md-6">
+                <div class="pull-right matbtnGroup">
+
+                  <button mat-raised-button type="submit" data-target="#largeModalAddAgent" data-toggle="modal"
+                    data-backdrop="static" data-keyboard="false">Add</button>
+                  <!-- (click)="Add()" -->
+                  <!-- <button mat-raised-button type="submit" (click)="ExportExcel()">Export To Excel</button>
+                  <button mat-raised-button type="submit" (click)="ExportPdf()">Export To Pdf</button> -->
+                  <img style="cursor: pointer;margin-right: 10px;" src='../../../assets/img/icons/xls.png' title="Export Excel" (click)="ExportExcel()" width="24"/>
+                  <img style="cursor: pointer;margin-right: 10px;"src='../../../assets/img/icons/pdf.png' title="Export PDF" (click)="ExportPdf()" width="24"/>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="agentdataTable" class="display"
+                style=" border-collapse:collapse; table-layout:fixed; width:100%;">
+                <thead>
+                  <tr>
+                    <th hidden>Id</th>
+                    <th width="10%">Sr No</th>
+                    <th width="50%">Name</th>
+                    <th width="15%">Mobile No</th>
+                    <th width="15%">Password</th>
+                    <th width="10%">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of agentGrid; let i=index">
+                    <td hidden data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                      data-keyboard="false" (click)="ViewDataBind(data)">
+                      {{data.agentId}}
+                    </td>
+                    <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                      data-keyboard="false" (click)="ViewDataBind(data)">
+                      {{i+1}}
+                    </td>
+
+                    <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                      data-keyboard="false" (click)="ViewDataBind(data)" style="word-wrap:break-word;">
+                      <span style="color:rgb(0, 71, 204);font-weight: bold;">  {{data.name}}</span>
+                    </td>
+                    <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                      data-keyboard="false" (click)="ViewDataBind(data)">
+                      {{data.mobileNo}}
+                    </td>
+                    <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                      data-keyboard="false" (click)="ViewDataBind(data)">
+                      {{data.password}}
+                    </td>
+
+                    <td>
+                      <span style="color:rgb(0, 71, 204);font-weight: bold;"> <i class="material-icons" data-target="#largeModalUpdateAgent" data-toggle="modal"
+                        data-backdrop="static" data-keyboard="false" (click)="UpdateDataBind(data)">create</i>
+                      <i class="material-icons" data-target="#largeModalDeleteAgent" data-toggle="modal"
+                        data-backdrop="static" data-keyboard="false" (click)="DeleteDataBind(data)">delete_forever</i>
+                    </span>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            
+              <!-- <div class="row">
+                <div class="col-md-3">
+                    <div class="list-group border-bottom">
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a>
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a>
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-group border-bottom">
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a>
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-group border-bottom">
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a>
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="list-group border-bottom">
+                        <button ><img src='img/icons/xls.png' width="24"/> XLS</button>
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a>
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-group border-bottom">
+                        <a  class="list-group-item" onClick ="$('#customers').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a>
+                        <button onClick ="$('#customers').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</button>
+                    </div>
+                </div>
+            </div>   -->
+              <!-- <div class=" row form-group">
+                <div class="col-md-1"><b>Show Item</b></div>
+                <div class="col-md-1">
+                    <select class="form-control select"  [(ngModel)]="itemsPerPage" (change)="itemsPerPageChange($event)">
+                        <option>10</option>
+                        <option>25</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>1000</option>
+                    </select>
+                </div> 
+                <div class="col-md-5"></div>
+                <div class="col-md-1">Search</div>
+                <div class="col-md-3">
+                  <input  class="form-control" type="text" placeholder="Enter Contact No. or Name" (keyup)="searchevent($event)" [(ngModel)]="search">
+                </div>
+                <div class="col-md-1">
+                  <ul class="panel-controls">
+                    <li><a (click)="searchJobseeker(search)"><span class="fa fa-search"></span></a></li>
+                  </ul>
+            </div>
+            </div>
+              <table id="customers" class="table datatable table-responsive" style=" border-collapse:collapse; table-layout:fixed; width:100%;">
+                <thead>
+                  <tr>
+                    <th width="10%">Sr No</th>
+                    <th width="50%">Name</th>
+                    <th width="15%">Mobile No</th>
+                    <th width="15%">Password</th>
+                    <th width="10%">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr   *ngFor="let data of agentList | paginate: { id: 'agentPagination',
+                  itemsPerPage: itemsPerPage, currentPage: pageNo, totalItems: agentListLength}; let i = index">
+                  
+          
+                  
+                  <td >{{((pageNo)*itemsPerPage-itemsPerPage)+(i+1)}}</td>
+                <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                  data-keyboard="false" (click)="ViewDataBind(data)" style="word-wrap:break-word;">
+                  <span style="color:rgb(0, 71, 204);font-weight: bold;"> {{data.name}}</span>
+                </td>
+                <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                  data-keyboard="false" (click)="ViewDataBind(data)">
+                  {{data.mobileNo}}
+                </td>
+                <td data-target="#AgentViewModal" data-toggle="modal" data-backdrop="static"
+                  data-keyboard="false" (click)="ViewDataBind(data)">
+                  {{data.password}}
+                </td>
+
+                <td>
+                  <span style="color:rgb(0, 71, 204);font-weight: bold;"> <i class="material-icons" data-target="#largeModalUpdateAgent" data-toggle="modal"
+                    data-backdrop="static" data-keyboard="false" (click)="UpdateDataBind(data)">create</i>
+                  <i class="material-icons" data-target="#largeModalDeleteAgent" data-toggle="modal"
+                    data-backdrop="static" data-keyboard="false" (click)="DeleteDataBind(data)">delete_forever</i>
+               </span>
+                  </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls id="agentPagination" (pageChange)="pageNoChange($event);pageNo = $event">
+              </pagination-controls>
+             -->
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="largeModalAddAgent" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">ADD AGENT</h5>
+        <button type="button" class="close" (click)="addCloseClick()" #closeaddForm data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" (ngSubmit)="addForm.form.valid && AddAgentSubmit()" #addForm="ngForm" novalidate
+        (keydown.enter)="$event.preventDefault()">
+        <div class="modal-body">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name">Name<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter Name"
+                    name="name" [(ngModel)]="addAgent.name" #name="ngModel"
+                    [ngClass]="{ 'is-invalid': addForm.submitted && name.invalid }" required>
+                  <div *ngIf="addForm.submitted && name.invalid" class="invalid-feedback">
+                    <div *ngIf="name.errors.required">Name</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="mobileNo">Mobile No<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="mobileNo" placeholder="Enter mobileNo" name="mobileNo"
+                    [(ngModel)]="addAgent.mobileNo" #mobileNo="ngModel" maxlength="10"
+                    (keypress)="_keyPress1($event)" [ngClass]="{ 'is-invalid': addForm.submitted && mobileNo.invalid }"
+                    required>
+                  <div *ngIf="addForm.submitted && mobileNo.invalid" class="invalid-feedback">
+                    <div *ngIf="mobileNo.errors.required">Mobile No is required</div>
+                  </div>
+                  <span id="moberr" style="color:red;font-size: 12px"></span>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="password">Password<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="password" placeholder="Enter Password" name="password"
+                    [(ngModel)]="addAgent.password" #password="ngModel"
+                    [ngClass]="{ 'is-invalid': addForm.submitted && password.invalid }" required>
+                  <div *ngIf="addForm.submitted && password.invalid" class="invalid-feedback">
+                    <div *ngIf="password.errors.required">Password is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer matbtnGroup">
+          <button mat-raised-button type="submit">Save</button>
+          <button mat-raised-button type="submit" (click)="addCancelClick();" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="largeModalUpdateAgent" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">UPDATE AGENT</h5>
+        <button type="button" (click)="updateCloseClick()" #closeupdateForm class="close" data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" (ngSubmit)="updateForm.form.valid && UpdateAgentSubmit()" #updateForm="ngForm" novalidate
+        (keydown.enter)="$event.preventDefault()">
+        <div class="modal-body" *ngIf="agentUpdate">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name">Name<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter Name"
+                    name="name" [(ngModel)]="agentUpdate.name" #name="ngModel"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && name.invalid }" required>
+                  <div *ngIf="updateForm.submitted && name.invalid" class="invalid-feedback">
+                    <div *ngIf="name.errors.required">Name</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="mobileNo">Mobile No<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="mobileNo" placeholder="Enter mobileNo" name="mobileNo"
+                    [(ngModel)]="agentUpdate.mobileNo" #mobileNo="ngModel" maxlength="10"
+                    (keypress)="_keyPress1($event)"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && mobileNo.invalid }" required>
+                  <div *ngIf="updateForm.submitted && mobileNo.invalid" class="invalid-feedback">
+                    <div *ngIf="mobileNo.errors.required">Mobile No is required</div>
+                  </div>
+                  <span id="moberr" style="color:red;font-size: 12px"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="password">Password<sup style="font-size: 80%;color:red">*</sup></label>
+                  <input type="text" class="form-control" id="password" placeholder="Enter Password" name="password"
+                    [(ngModel)]="agentUpdate.password" #password="ngModel"
+                    [ngClass]="{ 'is-invalid': updateForm.submitted && password.invalid }" required>
+                  <div *ngIf="updateForm.submitted && password.invalid" class="invalid-feedback">
+                    <div *ngIf="password.errors.required">Password is required</div>
+                  </div>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer matbtnGroup">
+          <button mat-raised-button type="submit">Update</button>
+          <button mat-raised-button type="submit" (click)="updateCancelClick()" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="largeModalDeleteAgent" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">DELETE AGENT</h5>
+        <button type="button" #closedeleteForm class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="agentDelete">
+        <div class="card-body">
+          <h5>ARE YOU SURE YOU WANT TO DELETE {{agentDelete.name}} ?</h5>
+        </div>
+      </div>
+      <div class="modal-footer matbtnGroup">
+        <button mat-raised-button type="submit" (click)="DeleteAgentSubmit()">Delete</button>
+        <button mat-raised-button type="submit" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="AgentViewModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="largeModalLabel">VIEW AGENT</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="agentViewData">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered table-hover table-condensed"
+              style="width:100%">
+              <tbody>
+                <tr>
+                  <td><b>Name</b></td>
+                  <td><span style="color:rgb(0, 71, 204);font-weight: bold;">{{agentViewData.name}}</span></td>
+                </tr>
+                <tr>
+                  <td><b>Mobile No</b></td>
+                  <td>{{agentViewData.mobileNo}}</td>
+                </tr>
+                <tr>
+                  <td><b>Password</b></td>
+                  <td>{{agentViewData.password}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

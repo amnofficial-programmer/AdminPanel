@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top">
+    <div class="container-fluid justify-content-center">
+        <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="mobile">
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="navbar-toggler" type="button">
+                <!-- pass local reference of mat-menu to be opened on this click -->
+                <mat-icon>settings</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" style="font-size: medium;">
+                <!-- <a *ngIf="adminForm" class="dropdown-item" routerLink="/adminRegistration">Admin Registration For Building</a>
+                <a class="dropdown-item" routerLink="/societyprofile">Society Profile</a>
+                <a class="dropdown-item" routerLink="/changepassword">Change Password</a>
+                <a class="dropdown-item" routerLink="/emailSetting">Email Setting</a>
+                <a class="dropdown-item" routerLink="/smsSetting">SMS Setting</a> -->
+                <a class="dropdown-item" routerLink="" (click)="logout()">LogOut</a>
+            </mat-menu>
+        </div>
+        <div class="align-middle container-fluid justify-content-center">
+
+        </div>
+        <div class="collapse navbar-collapse justify-content-end " id="navigation">
+
+            <ul class="navbar-nav">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <!-- pass local reference of mat-menu to be opened on this click -->
+                    <mat-icon>settings</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu" style="font-size: medium;">
+                    <!-- give local reference and tell this is manu by assigning 'matMenu' -->
+                    <!-- <a *ngIf="adminForm" class="dropdown-item" routerLink="/adminRegistration">Admin Registration For Building</a>
+                    <a class="dropdown-item" routerLink="/societyprofile">Society Profile</a>
+                    <a class="dropdown-item" routerLink="/changepassword">Change Password</a>
+                    <a class="dropdown-item" routerLink="/emailSetting">Email Setting</a>
+                    <a class="dropdown-item" routerLink="/smsSetting">SMS Setting</a> -->
+                    <a class="dropdown-item" routerLink="" (click)="logout()">LogOut</a>
+                </mat-menu>
+            </ul>
+        </div>
+    </div>
+
+</nav>

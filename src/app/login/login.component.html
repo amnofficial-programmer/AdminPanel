@@ -1,0 +1,95 @@
+<div class="main-content" style="margin-top:100px;">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card justify-content-center">
+          <div class="card-header card-header-danger">
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="card-title">Login</h4>
+              </div>
+            </div>
+          </div>
+
+          <form name="form" (ngSubmit)="loginForm.form.valid && LoginSubmit()" #loginForm="ngForm" novalidate>
+            <div class="card-body">
+              <span id="errlogin" style="color:red"></span>
+              <div class="form-group">
+                <label for="email">Email ID<sup style="font-size: 80%;color:red">*</sup> </label>
+                <input type="text" class="form-control" id="email" placeholder="Enter Email Id" name="email"
+                  [(ngModel)]="login.email" #email="ngModel"
+                  [ngClass]="{ 'is-invalid': loginForm.submitted && email.invalid }" required 
+                  >
+                  <!-- (keypress)=_keyPress($event) -->
+
+                <div *ngIf="loginForm.submitted && email.invalid" class="invalid-feedback">
+                  <div *ngIf="email.errors.required">mobile is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">Password<sup style="font-size: 80%;color:red">*</sup></label>
+                <show-hide-password size="sm" [btnOutline]="false">
+                  <input type="password" class="form-control" id="password" placeholder="Enter password" name="password"
+                    [(ngModel)]="login.password" #password="ngModel"
+                    [ngClass]="{ 'is-invalid': loginForm.submitted && password.invalid }" required>
+
+                </show-hide-password>
+                <!-- <input type="password" class="form-control" id="password" placeholder="Enter password" name="password"
+                  [(ngModel)]="login.password" #password="ngModel"    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}$"
+                  [ngClass]="{ 'is-invalid': loginForm.submitted && password.invalid }" required> -->
+                <div *ngIf="loginForm.submitted && password.invalid" class="invalid-feedback">
+                  <div *ngIf="password.errors.required">Password is required</div>
+                </div>
+              </div>
+
+              <!-- <div class="form-group">
+                <label for="category">Role<sup style="font-size: 80%;color:red">*</sup></label>
+                <select class="form-control" id="roleId" name="roleId" [(ngModel)]="login.roleId" #roleId="ngModel"
+                  [ngClass]="{ 'is-invalid': loginForm.submitted && roleId.invalid }" required>
+                  
+                  <option [value]=0>
+                   Admin
+                  </option>
+
+                </select>
+                <div *ngIf="loginForm.submitted && roleId.invalid" class="invalid-feedback">
+                  <div *ngIf="roleId.errors.required">role is required</div>
+                </div>
+              </div> -->
+
+
+              <!-- <div class="form-group">
+                <label for="category">Role<sup style="font-size: 80%;color:red">*</sup></label>
+                <select class="form-control" id="roleId" name="roleId" [(ngModel)]="login.roleId" #roleId="ngModel"
+                  [ngClass]="{ 'is-invalid': loginForm.submitted && roleId.invalid }" required>
+                  
+                  <option *ngFor="let roledata of roleDropDown" [value]="roledata.building.buildingId">
+                    {{roledata.building.buildingName}}
+                  </option>
+
+                </select>
+                <div *ngIf="loginForm.submitted && roleId.invalid" class="invalid-feedback">
+                  <div *ngIf="roleId.errors.required">role is required</div>
+                </div>
+              </div> -->
+
+            </div>
+
+
+
+            <div class="modal-footer matbtnGroup">
+
+              <!-- <div>
+                Remember me
+                <input class="mt-1" type="checkbox" (change)="rememberMe($event)">
+              </div>
+
+              <span class="forgot" (click)="getForgotPassWord()">Forgot Password?</span> -->
+              <button mat-raised-button type="submit">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
