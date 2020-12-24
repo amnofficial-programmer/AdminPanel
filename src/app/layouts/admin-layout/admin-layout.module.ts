@@ -29,7 +29,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown'
 //import { ImageViewerModule } from "ngx-image-viewer";
 //import { TagInputModule } from 'ngx-chips';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
-import { MatButtonModule } from '@angular/material/button';
+// import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -66,7 +66,7 @@ import { RecruiterComponent } from '../../tabs/recruiter/recruiter.component';
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     MatTabsModule,
-    MatButtonModule,
+    // MatButtonModule,
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,

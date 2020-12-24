@@ -5,7 +5,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import {MatChipsModule} from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
+// import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -42,7 +42,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     RouterModule,
 
     MatAutocompleteModule,
-    MatButtonModule,
+    // MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
